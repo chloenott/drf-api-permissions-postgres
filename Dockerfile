@@ -1,6 +1,7 @@
-FROM python:3.8-slim
+FROM python:3
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SUPERUSER_PASSWORD=test
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
