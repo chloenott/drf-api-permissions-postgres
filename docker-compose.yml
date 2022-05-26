@@ -9,10 +9,15 @@ services:
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: gunicorn notes_api_remade_and_extended.wsgi:application --bind 0.0.0.0:8000 --workers 4
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+    depends_on:
+      - migrations
+  migrations:
+    build: .
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser --noinput --username chloe --email test@nott.email"
     depends_on:
       - db
